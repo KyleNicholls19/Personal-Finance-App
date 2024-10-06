@@ -1,47 +1,67 @@
 import {useState, useEffect} from 'react'
 import api from '../api'
+import Chart from '../components/Chart'
+import Expense from '../components/Expense'
 
 function Home() {
-    const [notes, setNotes] = useState([])
-    const [content,setContent] = useState("")
+    const [expenses, setExpenses] = useState([])
     const [title, setTitle] = useState("")
+    const [value, setValue] = useState(0)
+    const [frequency, setFrequency] = useState("")
 
     useEffect(() => {
-        getNotes()
+        getExpenses()
     }, [])
 
-    const getNotes = () => {
-        api.get("/api/notes/").then((res) => res.data).then((data) => setNotes(data)).catch((err) => alert(err))
+    const getExpenses = () => {
+        api.get("/api/expenses/").then((res) => res.data).then((data) => setExpenses(data)).catch((err) => alert(err))
     }
 
-    const deleteNote = (id) => {
-        api.delete(`api/notes/delete/${id}/`).then((res) => {
+    const deleteExpense = (id) => {
+        api.delete(`api/expenses/delete/${id}/`).then((res) => {
             if (res.status === 204) alert("Deleted!")
             else alert("Failed to delete!")
+            getExpenses()
         }).catch((err) => alert(err))
-        getNotes()
+        
     }
 
-    const createNote = (e) => {
+    const createExpense = (e) => {
         e.preventDefault()
-        api.post("/api/notes/", {content,title}).then((res) => {
+        api.post("/api/expenses/", {value,title,frequency}).then((res) => {
             if (res.status === 201) alert("Created!")
             else alert("Failed")
+            getExpenses()
         }).catch((err) => alert(err))
-        getNotes()
     }
 
     return (
         <>
         <div>
-            <h2>Notes</h2>
+            <h2>Expenses</h2>
+            {expenses.map((expense) => <Expense expense = {expense} onDelete={deleteExpense} key={expense.id}></Expense>)}
         </div>
-        <h2>Create Note</h2>
-        <form onSubmit={createNote}>
+        <h2>Create Expense</h2>
+        <form onSubmit={createExpense}>
             <label htmlFor="title">Title:</label>
-        <br />
-        <input type="text" id="title" name="title" required onChange={(e) => setTitle(e.target.value)} value={title}/>
+            <br />
+            <input type="text" id="title" name="title" required onChange={(e) => setTitle(e.target.value)} value={title}/>
+            <br />
+
+            <label htmlFor="value">Value:</label>
+            <br />
+            <input type="text" id="value" name="value" required onChange={(e) => setValue(e.target.value)} value={value}/>
+            <br />
+
+            <label htmlFor="frequency">Frequency:</label>
+            <br />
+            <input type="text" id="frequency" name="frequency" required onChange={(e) => setFrequency(e.target.value)} value={frequency}/>
+
+            <br />
+            <input type="submit" value="Submit"/>
         </form>
+
+        <Chart></Chart>
         </>
     )
 
