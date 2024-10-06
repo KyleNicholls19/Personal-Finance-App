@@ -18,7 +18,7 @@ function ProtectedRoute({children}){
             const response = await api.post("/api/token/refresh/", {refresh: refreshToken}) // passes the refresh token to the route
             // if the response is successful, set access token as the new access token
             if (response.status === 200) {
-                localStorage.setItem(ACCESS_TOKEN,res.data.access)
+                localStorage.setItem(ACCESS_TOKEN,response.data.access)
                 setIsAuthorized(true)
             } else {
                 setIsAuthorized(false)
