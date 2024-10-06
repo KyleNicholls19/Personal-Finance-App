@@ -6,7 +6,7 @@ function Expense({expense,onDelete}) {
     return (
         <div>
             <p>{expense.title}</p>
-            <p>{expense.value}</p>
+            <p>{expense.amount}</p>
             <p>{expense.frequency}</p>
             <p>{formattedDate}</p>
             <button onClick={() => onDelete(expense.id)}>Delete</button>

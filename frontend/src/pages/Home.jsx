@@ -6,7 +6,7 @@ import Expense from '../components/Expense'
 function Home() {
     const [expenses, setExpenses] = useState([])
     const [title, setTitle] = useState("")
-    const [value, setValue] = useState(0)
+    const [amount, setAmount] = useState(0)
     const [frequency, setFrequency] = useState("")
 
     useEffect(() => {
@@ -14,7 +14,7 @@ function Home() {
     }, [])
 
     const getExpenses = () => {
-        api.get("/api/expenses/").then((res) => res.data).then((data) => setExpenses(data)).catch((err) => alert(err))
+        api.get("/api/expenses/").then((res) => res.data).then((data) => {setExpenses(data); console.log(data)}).catch((err) => alert(err))
     }
 
     const deleteExpense = (id) => {
@@ -28,7 +28,7 @@ function Home() {
 
     const createExpense = (e) => {
         e.preventDefault()
-        api.post("/api/expenses/", {value,title,frequency}).then((res) => {
+        api.post("/api/expenses/", {amount,title,frequency}).then((res) => {
             if (res.status === 201) alert("Created!")
             else alert("Failed")
             getExpenses()
@@ -50,7 +50,7 @@ function Home() {
 
             <label htmlFor="value">Value:</label>
             <br />
-            <input type="text" id="value" name="value" required onChange={(e) => setValue(e.target.value)} value={value}/>
+            <input type="text" id="value" name="value" required onChange={(e) => setAmount(e.target.value)} value={amount}/>
             <br />
 
             <label htmlFor="frequency">Frequency:</label>
