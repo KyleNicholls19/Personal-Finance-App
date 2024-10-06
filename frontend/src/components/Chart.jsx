@@ -5,7 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 // Register the necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-
+// temporary test data
 function Chart() {
     const data = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
