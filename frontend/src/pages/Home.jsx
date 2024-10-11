@@ -61,6 +61,8 @@ function Home() {
             <input type="submit" value="Submit"/>
         </form>
 
+        <Chart></Chart>
+
         </>
     )
 

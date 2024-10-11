@@ -1,18 +1,32 @@
 import React from 'react';
+import api from "../api"
+import {useState, useEffect} from 'react'
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 // Register the necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
+
 // temporary test data
 function Chart() {
+
+  const [expenses, setExpenses] = useState([])
+
+  const getExpenses = () => {
+    api.get("/api/expenses/").then((res) => res.data).then((data) => {setExpenses(data); console.log(data)}).catch((err) => alert(err))
+  }
+
+  useEffect(() => {
+    getExpenses()
+  }, [])
+
     const data = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [
           {
-            label: 'Sales',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            label: 'Expenses',
+            data: expenses.map((expense) => expense.amount),
             fill: false,
             backgroundColor: 'rgb(75, 192, 192)',
             borderColor: 'rgba(75, 192, 192, 0.2)',
@@ -28,7 +42,7 @@ function Chart() {
           },
           title: {
             display: true,
-            text: 'Monthly Sales Data',
+            text: 'Expense Report',
           },
         },
       };
