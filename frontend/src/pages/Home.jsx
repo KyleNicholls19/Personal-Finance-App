@@ -9,6 +9,7 @@ function Home() {
     const [title, setTitle] = useState("")
     const [amount, setAmount] = useState(0)
     const [frequency, setFrequency] = useState("")
+    const [created_at, setCreatedAt] = useState(new Date())
 
     useEffect(() => {
         getExpenses()
@@ -29,7 +30,7 @@ function Home() {
 
     const createExpense = (e) => {
         e.preventDefault()
-        api.post("/api/expenses/", {amount,title,frequency}).then((res) => {
+        api.post("/api/expenses/", {amount,title,frequency,created_at}).then((res) => {
             if (res.status === 201) alert("Created!")
             else alert("Failed")
             getExpenses()
@@ -57,6 +58,11 @@ function Home() {
             <label htmlFor="frequency">Frequency:</label>
             <br />
             <input type="text" id="frequency" name="frequency" required onChange={(e) => setFrequency(e.target.value)} value={frequency}/>
+
+            <br />
+            <label htmlFor="created_at">Start Date:</label>
+            <br />
+            <input type="date" id="created_at" name="created_at" required onChange={(e) => setCreatedAt(e.target.value)} value={created_at}/>
 
             <br />
             <input type="submit" value="Submit"/>

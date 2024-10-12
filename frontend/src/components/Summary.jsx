@@ -22,11 +22,12 @@ function Summary() {
 
     useEffect(() => {
         getExpenses()
+        
+    }, [])
+    
+    useEffect(() => {
         totalExpenses()
-
-      }, [])
-
-
+    }, [expenses])
 
     return (
         <>
