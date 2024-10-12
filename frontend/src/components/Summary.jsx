@@ -4,26 +4,29 @@ import {useState, useEffect} from 'react'
 
 function Summary() {
     const [expenses, setExpenses] = useState([])
-    let totalAmount = 0
+    const [totalAmount,setTotalAmount] = useState(0)
 
     const getExpenses = () => {
       api.get("/api/expenses/").then((res) => res.data).then((data) => {setExpenses(data); console.log(data)}).catch((err) => alert(err))
     }
 
     const totalExpenses = () => {
+        let newAmount = 0;
         const expenseAmounts = expenses.map((expense) => expense.amount)
 
         expenseAmounts.forEach((item) => {
-            totalAmount += item
+            newAmount += item
         })
+        setTotalAmount(totalAmount + newAmount)
     }
 
     useEffect(() => {
         getExpenses()
         totalExpenses()
+
       }, [])
 
-    console.log(totalAmount)
+
 
     return (
         <>
