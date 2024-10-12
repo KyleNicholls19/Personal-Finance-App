@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import api from '../api'
 import Chart from '../components/Chart'
 import Expense from '../components/Expense'
+import Summary from '../components/Summary'
 
 function Home() {
     const [expenses, setExpenses] = useState([])
@@ -61,7 +62,7 @@ function Home() {
             <input type="submit" value="Submit"/>
         </form>
 
-        <Chart></Chart>
+        <Summary></Summary>
 
         </>
     )

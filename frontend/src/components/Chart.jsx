@@ -8,7 +8,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 
-// temporary test data
 function Chart() {
 
   const [expenses, setExpenses] = useState([])
