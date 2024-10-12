@@ -19,6 +19,13 @@ function Home() {
         api.get("/api/expenses/").then((res) => res.data).then((data) => {setExpenses(data); console.log(data)}).catch((err) => alert(err))
     }
 
+    const resetForm = () => {
+        setTitle("")
+        setAmount(0)
+        setFrequency("")
+        setCreatedAt(new Date().toISOString().split("T")[0])
+    };
+
     const deleteExpense = (id) => {
         api.delete(`api/expenses/delete/${id}/`).then((res) => {
             if (res.status === 204) alert("Deleted!")
@@ -34,6 +41,7 @@ function Home() {
             if (res.status === 201) alert("Created!")
             else alert("Failed")
             setExpenses([...expenses, res.data])
+            resetForm()
         }).catch((err) => alert(err))
     }
 
@@ -65,7 +73,7 @@ function Home() {
             <input type="date" id="created_at" name="created_at" required onChange={(e) => setCreatedAt(e.target.value)} value={created_at}/>
 
             <br />
-            <input type="submit" value="Submit"/>
+            <button type="submit" value="Submit">Submit</button>
         </form>
 
         <Summary expenses={expenses}/>
