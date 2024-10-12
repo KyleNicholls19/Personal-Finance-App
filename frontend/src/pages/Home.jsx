@@ -9,7 +9,7 @@ function Home() {
     const [title, setTitle] = useState("")
     const [amount, setAmount] = useState(0)
     const [frequency, setFrequency] = useState("")
-    const [created_at, setCreatedAt] = useState(new Date())
+    const [created_at, setCreatedAt] = useState(new Date().toISOString().split("T")[0])
 
     useEffect(() => {
         getExpenses()
@@ -23,7 +23,7 @@ function Home() {
         api.delete(`api/expenses/delete/${id}/`).then((res) => {
             if (res.status === 204) alert("Deleted!")
             else alert("Failed to delete!")
-            getExpenses()
+            setExpenses(expenses.filter((expense) => expense.id !== id))
         }).catch((err) => alert(err))
         
     }
@@ -33,7 +33,7 @@ function Home() {
         api.post("/api/expenses/", {amount,title,frequency,created_at}).then((res) => {
             if (res.status === 201) alert("Created!")
             else alert("Failed")
-            getExpenses()
+            setExpenses([...expenses, res.data])
         }).catch((err) => alert(err))
     }
 

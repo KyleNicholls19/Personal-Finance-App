@@ -10,14 +10,9 @@ function Summary() {
       api.get("/api/expenses/").then((res) => res.data).then((data) => {setExpenses(data); console.log(data)}).catch((err) => alert(err))
     }
 
-    const totalExpenses = () => {
-        let newAmount = 0;
-        const expenseAmounts = expenses.map((expense) => expense.amount)
-
-        expenseAmounts.forEach((item) => {
-            newAmount += item
-        })
-        setTotalAmount(totalAmount + newAmount)
+    const totalExpenses = (expenses) => {
+        const newAmount = expenses.reduce((acc, expense) => acc + expense.amount, 0);
+        setTotalAmount(newAmount);
     }
 
     useEffect(() => {
@@ -26,7 +21,7 @@ function Summary() {
     }, [])
     
     useEffect(() => {
-        totalExpenses()
+        totalExpenses(expenses)
     }, [expenses])
 
     return (
