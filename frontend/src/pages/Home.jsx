@@ -68,7 +68,7 @@ function Home() {
             <input type="submit" value="Submit"/>
         </form>
 
-        <Summary></Summary>
+        <Summary expenses={expenses}/>
 
         </>
     )
