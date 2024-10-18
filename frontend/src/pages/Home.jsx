@@ -10,7 +10,7 @@ function Home() {
     const [expenses, setExpenses] = useState([])
     const [title, setTitle] = useState("")
     const [amount, setAmount] = useState(0)
-    const [dates, setDates] = useState([new Date().toISOString().split("T")[0]])
+    const [dates, setDates] = useState(new Date())
 
     useEffect(() => {
         getExpenses()
@@ -23,7 +23,7 @@ function Home() {
     const resetForm = () => {
         setTitle("")
         setAmount(0)
-        setDates(new Date().toISOString().split("T")[0])
+        setDates(new Date())
     };
 
     const deleteExpense = (id) => {
@@ -37,7 +37,8 @@ function Home() {
 
     const createExpense = (e) => {
         e.preventDefault()
-        api.post("/api/expenses/", {amount,title,dates}).then((res) => {
+        const formattedDates = dates.map(date => date.format("YYYY-MM-DD"));
+        api.post("/api/expenses/", {amount,title,dates: formattedDates}).then((res) => {
             if (res.status === 201) alert("Created!")
             else alert("Failed")
             setExpenses([...expenses, res.data])
