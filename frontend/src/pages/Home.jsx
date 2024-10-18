@@ -65,7 +65,12 @@ function Home() {
 
             <label htmlFor="frequency">Frequency:</label>
             <br />
-            <input type="text" id="frequency" name="frequency" required onChange={(e) => setFrequency(e.target.value)} value={frequency}/>
+            <select name="frequency" id="frequency" required onChange={(e) => setFrequency(e.target.value)} value={frequency}>
+                <option value="Once a week">Once a Week</option>
+                <option value="Twice a week">Twice a Week</option>
+                <option value="Once a Month">Once a Month</option>
+                <option value="Twice a Month">Twice a Month</option>
+            </select>
 
             <br />
             <label htmlFor="created_at">Start Date:</label>
