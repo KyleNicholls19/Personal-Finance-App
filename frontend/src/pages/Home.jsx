@@ -3,13 +3,14 @@ import api from '../api'
 import Chart from '../components/Chart'
 import Expense from '../components/Expense'
 import Summary from '../components/Summary'
+import DatePicker from "react-multi-date-picker"
+import DatePanel from "react-multi-date-picker/plugins/date_panel"
 
 function Home() {
     const [expenses, setExpenses] = useState([])
     const [title, setTitle] = useState("")
     const [amount, setAmount] = useState(0)
-    const [frequency, setFrequency] = useState("")
-    const [created_at, setCreatedAt] = useState(new Date().toISOString().split("T")[0])
+    const [dates, setDates] = useState([new Date().toISOString().split("T")[0]])
 
     useEffect(() => {
         getExpenses()
@@ -22,8 +23,7 @@ function Home() {
     const resetForm = () => {
         setTitle("")
         setAmount(0)
-        setFrequency("")
-        setCreatedAt(new Date().toISOString().split("T")[0])
+        setDates(new Date().toISOString().split("T")[0])
     };
 
     const deleteExpense = (id) => {
@@ -37,13 +37,14 @@ function Home() {
 
     const createExpense = (e) => {
         e.preventDefault()
-        api.post("/api/expenses/", {amount,title,frequency,created_at}).then((res) => {
+        api.post("/api/expenses/", {amount,title,dates}).then((res) => {
             if (res.status === 201) alert("Created!")
             else alert("Failed")
             setExpenses([...expenses, res.data])
             resetForm()
         }).catch((err) => alert(err))
     }
+
 
     return (
         <>
@@ -63,19 +64,19 @@ function Home() {
             <input type="text" id="value" name="value" required onChange={(e) => setAmount(e.target.value)} value={amount}/>
             <br />
 
-            <label htmlFor="frequency">Frequency:</label>
-            <br />
-            <select name="frequency" id="frequency" required onChange={(e) => setFrequency(e.target.value)} value={frequency}>
-                <option value="Once a week">Once a Week</option>
-                <option value="Twice a week">Twice a Week</option>
-                <option value="Once a Month">Once a Month</option>
-                <option value="Twice a Month">Twice a Month</option>
-            </select>
 
-            <br />
             <label htmlFor="created_at">Start Date:</label>
             <br />
-            <input type="date" id="created_at" name="created_at" required onChange={(e) => setCreatedAt(e.target.value)} value={created_at}/>
+            <DatePicker 
+            value={dates} 
+            multiple 
+            onChange={setDates} 
+            format="YYYY-MM-DD" 
+            plugins={[
+            <DatePanel />
+            ]}/>
+
+            
 
             <br />
             <button type="submit" value="Submit">Submit</button>

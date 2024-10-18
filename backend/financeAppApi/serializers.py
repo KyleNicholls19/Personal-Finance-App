@@ -15,5 +15,5 @@ class UserSerializer(serializers.ModelSerializer):
 class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
-        fields = ["id","title","amount","frequency","created_at","author"]
+        fields = ["id","title","amount","dates","author"]
         extra_kwargs = {"author": {"read_only":True}}
